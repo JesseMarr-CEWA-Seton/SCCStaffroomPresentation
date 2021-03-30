@@ -2,7 +2,6 @@
 <html>
 <head>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script type="text/javascript" src="data.json"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <style>
 * {box-sizing: border-box;}
@@ -99,7 +98,6 @@ h1 {
 <body>
   <h1>Notices</h1>
 <div style="text-align:center">
-      <span class="dot" style="display: none"></span> 
       <span class="dot" style="display: none">1</span> 
 			<span class="dot" style="display: none">2</span> 
 			<span class="dot" style="display: none">3</span> 
@@ -146,11 +144,11 @@ h1 {
   </div>
 
 <script>
-var slideIndex = 1;
+var slideIndex = 0;
 showSlides();
 
 function reloadPage(slideIndexNumer, slideslength) {
-	if (slideIndexNumer > (slideslength - 1)) {
+	if (slideIndexNumer > (slideslength)) {
 		setTimeout(reloadPage, 2000)
 		location.reload();
 	}
@@ -182,10 +180,10 @@ function showSlides() {
   
   j = slides.length;
   reloadPage(slideIndex, j);
-  if (slideIndex > slides.length) {slideIndex = 1}    
+  if (slideIndex > slides.length) {slideIndex = 0}    
   for (i = 0; i < dots.length; i++) {
     dots[i].className = dots[i].className.replace(" active", "");
-	if ((i >= (slides.length - 1)) || (i == 0)) {
+	if (i > (slides.length - 1)) {
 		dots[i].style.display = "none"; 
 	} else {
 		dots[i].style.display = ""; 
@@ -194,12 +192,12 @@ function showSlides() {
   
   // Put text to change here
   document.getElementById("title").innerHTML = slides[slideIndex-1].Title;
-  //document.getElementById("message").innerHTML = slides[slideIndex-1].Message;
+  document.getElementById("message").innerHTML = slides[slideIndex-1].Message;
   
   
   dots[slideIndex-1].className += " active";
   
-  setTimeout(showSlides, 2000); // Change image every 30sec
+  setTimeout(showSlides, 30000); // Change image every 30sec
 }
 </script>
 
