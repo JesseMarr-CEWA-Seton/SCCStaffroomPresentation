@@ -90,6 +90,7 @@ app.post('/content/StaffRoomPres/AddNewEntries.html', async (request, response) 
 
 });
 
+
 //// Redirects for "/content/StaffRoomPres/AddNewEntries.html"
 app.get('/content/StaffRoomPres/AddNewEntries.html', async (request, response) => {
 
@@ -140,5 +141,4 @@ app.post('/content/StaffRoomPres/RemoveOldEntries.html', async (request, respons
 
 
 
-
-app.listen(process.env.PORT || 3000, () => console.log(`App available on http://localhost:3000`))
+app.listen(process.env.PORT || 80, () => console.log(`App available on http://localhost:3000`))
