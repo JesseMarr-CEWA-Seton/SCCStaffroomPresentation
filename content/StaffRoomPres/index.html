@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script type="text/javascript" src="data.json"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+* {box-sizing: border-box;}
+body {
+	font-family: Verdana, sans-serif;
+  color: white;
+  background-image: url('content/StaffRoomPres/background.jpg');
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: 100% 100%;
+}
+.mySlides {
+	display: none;
+	text-align: center;
+}
+
+/* Slideshow container */
+.slideshow-container {
+  max-width: 100%;
+  max-hight: 100%;
+  position: relative;
+  margin: auto;
+}
+
+/* Caption text */
+.titleText {
+  color: #f2f2f2;
+  font-size: 128px;
+  padding: 8px 12px;
+  width: 100%;
+  text-align: center;
+  font-family: Bradley Hand, cursive;
+  word-wrap: break-word;
+}
+.messageText {
+  color: #f2f2f2;
+  font-size: 72px;
+  padding: 8px 8px;
+  width: 100%;
+  text-align: center;
+  font-family: Bradley Hand, cursive;
+  word-wrap: break-word;
+}
+/* Caption text */
+h1 {
+		font-family: Cursive;
+		font-size: 400%;
+		text-align: center;
+}
+
+/* The dots/bullets/indicators */
+.dot {
+  height: 32px;
+  width: 32px;
+  margin: 0 2px;
+  background-color: #404040;
+  font-size: 24px;
+  border-radius: 50%;
+  display: inline-block;
+  transition: background-color 0.6s ease;
+  color: #bbb;
+  
+	}
+	
+	.active {
+		background-color: #bbb;
+		color: #404040;
+	}
+
+/* Fading animation */
+.fade {
+  -webkit-animation-name: fade;
+  -webkit-animation-duration: 0.5s;
+  animation-name: fade;
+  animation-duration: 0.5s;
+}
+
+@-webkit-keyframes fade {
+  from {opacity: .4} 
+  to {opacity: 1}
+}
+
+@keyframes fade {
+  from {opacity: .4} 
+  to {opacity: 1}
+}
+
+/* On smaller screens, decrease text size */
+@media only screen and (max-width: 300px) {
+  .text {font-size: 11px}
+}
+</style>
+</head>
+<body>
+  <h1>Notices</h1>
+<div style="text-align:center">
+      <span class="dot" style="display: none"></span> 
+      <span class="dot" style="display: none">1</span> 
+			<span class="dot" style="display: none">2</span> 
+			<span class="dot" style="display: none">3</span> 
+			<span class="dot" style="display: none">4</span> 
+			<span class="dot" style="display: none">5</span> 
+			<span class="dot" style="display: none">6</span> 
+			<span class="dot" style="display: none">7</span> 
+			<span class="dot" style="display: none">8</span> 
+			<span class="dot" style="display: none">9</span> 
+			<span class="dot" style="display: none">10</span> 
+			<span class="dot" style="display: none">11</span> 
+			<span class="dot" style="display: none">12</span> 
+			<span class="dot" style="display: none">13</span> 
+			<span class="dot" style="display: none">14</span> 
+			<span class="dot" style="display: none">15</span> 
+			<span class="dot" style="display: none">16</span> 
+			<span class="dot" style="display: none">17</span> 
+			<span class="dot" style="display: none">18</span> 
+			<span class="dot" style="display: none">19</span> 
+			<span class="dot" style="display: none">20</span> 
+			<span class="dot" style="display: none">21</span> 
+			<span class="dot" style="display: none">22</span> 
+			<span class="dot" style="display: none">23</span> 
+			<span class="dot" style="display: none">24</span> 
+			<span class="dot" style="display: none">25</span> 
+      <span class="dot" style="display: none"></span> 
+      <span class="dot" style="display: none"></span> 
+      <span class="dot" style="display: none"></span> 
+      <span class="dot" style="display: none"></span> 
+      <span class="dot" style="display: none"></span> 
+      <span class="dot" style="display: none"></span> 
+      <span class="dot" style="display: none"></span> 
+      <span class="dot" style="display: none"></span> 
+      <span class="dot" style="display: none"></span> 
+      <span class="dot" style="display: none"></span> 
+      <span class="dot" style="display: none"></span> 
+      <span class="dot" style="display: none"></span> 
+</div>
+<div class="titleText">
+  <p id="title"></p>
+  </div>
+  <div class="messageText">
+  <p id="message" width="80%"></p>
+  </div>
+
+<script>
+var slideIndex = 1;
+showSlides();
+
+function reloadPage(slideIndexNumer, slideslength) {
+	if (slideIndexNumer > (slideslength - 1)) {
+		setTimeout(reloadPage, 2000)
+		location.reload();
+	}
+}
+
+function readJSON(file) {
+	var request = new XMLHttpRequest();
+	request.open('GET', file, false);
+	request.send(null);
+	if (request.status == 200)
+		return request.responseText;
+}
+
+function showSlides() {
+  var i;
+
+
+  var jsonData = readJSON("./test.json");
+  slides = JSON.parse(jsonData);
+
+  var dots = document.getElementsByClassName("dot");
+  var j;
+  slideIndex++;
+  
+
+
+
+
+  
+  j = slides.length;
+  reloadPage(slideIndex, j);
+  if (slideIndex > slides.length) {slideIndex = 1}    
+  for (i = 0; i < dots.length; i++) {
+    dots[i].className = dots[i].className.replace(" active", "");
+	if ((i >= (slides.length - 1)) || (i == 0)) {
+		dots[i].style.display = "none"; 
+	} else {
+		dots[i].style.display = ""; 
+	}
+  }
+  
+  // Put text to change here
+  document.getElementById("title").innerHTML = slides[slideIndex-1].Title;
+  //document.getElementById("message").innerHTML = slides[slideIndex-1].Message;
+  
+  
+  dots[slideIndex-1].className += " active";
+  
+  setTimeout(showSlides, 2000); // Change image every 30sec
+}
+</script>
+
+</body>
+</html> 
