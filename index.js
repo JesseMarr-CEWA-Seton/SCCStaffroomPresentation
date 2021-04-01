@@ -33,15 +33,9 @@ app.get('/', async (request, response) => {
 
 //// Redirects for "/content/StaffRoomPres/index.html"
 
-app.get('/data.json', async (request, response) => {
+app.get('/StaffRoomPres.json', async (request, response) => {
 
-  response.send( await readFile('./content/StaffRoomPres/data.json', 'utf8') );
-
-});
-
-app.get('/test.json', async (request, response) => {
-
-  response.send( await readFile('./content/StaffRoomPres/test.json', 'utf8') );
+  response.send( await readFile('./content/StaffRoomPres/StaffRoomPres.json', 'utf8') );
 
 });
 
@@ -73,14 +67,14 @@ app.post('/content/StaffRoomPres/AddNewEntries.html', async (request, response) 
 
  var newEntry = {"Title": request.body.Title, "Message":request.body.Message};
 
-  fs.readFile('content/StaffRoomPres/test.json', 'utf8', function readFileCallback(err, data){
+  fs.readFile('content/StaffRoomPres/StaffRoomPres.json', 'utf8', function readFileCallback(err, data){
       if (err){
           console.log(err);
       } else {
       obj = JSON.parse(data); //now it an object
       obj.push(newEntry);
       var strNotes = JSON.stringify(obj);
-            fs.writeFile('content/StaffRoomPres/test.json',strNotes, function(err){
+            fs.writeFile('content/StaffRoomPres/StaffRoomPres.json',strNotes, function(err){
                 if(err) return console.log(err);
                 console.log('Note added');
             });
@@ -101,25 +95,25 @@ app.get('/content/StaffRoomPres/AddNewEntries.html', async (request, response) =
 
 app.post('/content/StaffRoomPres/RemoveOldEntries.html', async (request, response) => {
 
+  var requestIdDelete = request.body.SlideId;
 
-
-  fs.readFile('content/StaffRoomPres/test.json', 'utf8', function readFileCallback(err, data){
+  fs.readFile('content/StaffRoomPres/StaffRoomPres.json', 'utf8', function readFileCallback(err, data){
       if (err){
           console.log(err);
       } else {
       obj = JSON.parse(data); //now it an object
-      
-      
-      
-      //obj.push(newEntry);
-        // Remove obj number
 
 
-      var strNotes = JSON.stringify(obj);
-            fs.writeFile('content/StaffRoomPres/test.json',strNotes, function(err){
+      if (requestIdDelete != 0) {
+        removed = obj.splice(requestIdDelete - 1,1);
+
+        var strNotes = JSON.stringify(obj);
+            fs.writeFile('content/StaffRoomPres/StaffRoomPres.json',strNotes, function(err){
                 if(err) return console.log(err);
                 console.log('Note deleted');
             });
+      }
+      
   }});
 
 
@@ -141,4 +135,4 @@ app.post('/content/StaffRoomPres/RemoveOldEntries.html', async (request, respons
 
 
 
-app.listen(process.env.PORT || 80, () => console.log(`App available on http://localhost:3000`))
+app.listen(process.env.PORT || 3000, () => console.log(`App available on http://localhost:3000`))

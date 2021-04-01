@@ -1,32 +1,97 @@
 <center>
-
-<p><a href="https://www.textfixer.com/html/convert-text-html.php" target="_blank">Convert text using this site.<br>https://www.textfixer.com/html/convert-text-html.php</a></p>
 <form method="post" name="checkout">
 <table border="0">
 	<tr>
-	<td><label for="Title">Title: </label>
-	</td>
-	<td><input type="text" name="Title" id="Title" placeholder="Put title here!"/><font color="red">*</font>
-	</td>
+		<div id="container" onchange="update();"></div>
 	</tr>
-
 	<tr>
-	<td><label for="Message">Message: </label>
-	</td>
-	<td><textarea rows="4" cols="50" name="Message" id="Message" placeholder="Enter message here!"/></textarea><font color="red">*</font>
-	</td>
+		<td><br></td>
 	</tr>
-	
 	<tr>
-    <td><label for="Name">Expiry Date: </label>
+	<td><label for="Title">Title:    </label>
 	</td>
 	<td>
-	<input id="ExpiryDate" name="ExpiryDate" type="date"><font color="red">*</font>
+		<div class="titleText">
+		<p id="title"></p>
+		</div>
+	</td>
+	</tr>
+<tr>
+	<td><br></td>
+</tr>
+	<td><label for="Message">Message:    </label>
+	</td>
+	<td>
+		<div class="messageText">
+		<p id="message"></p>
+		</div>
 	</td>
 	</tr>
 	<td><br><br>
 	<input type="submit" value="Submit" /></td>
-	<td><br><br>
-	<input type="reset" value="Reset Form" name="reset" onclick="Update()"></td>
 </table>
 </form>
+
+
+<script>
+	var slideIndex = 0;
+	CountSlides();
+	
+	function readJSON(file) {
+		var request = new XMLHttpRequest();
+		request.open('GET', file, false);
+		request.send(null);
+		if (request.status == 200)
+			return request.responseText;
+	}
+	
+	function CountSlides() {
+	  var i;
+
+	
+	
+	  var jsonData = readJSON("/StaffRoomPres.json");
+	  data = JSON.parse(jsonData);
+
+
+	var select = document.createElement("select");
+	select.name = "SlideId";
+	select.id = "SlideId"
+
+	var option = document.createElement("option");
+		option.value = 0;
+		option.text = "";
+		select.appendChild(option);
+
+	for (i = 0; i < data.length; i++) {
+		var option = document.createElement("option");
+		option.value = i + 1;
+		option.text = i + 1;
+		select.appendChild(option);
+	}
+
+	var label = document.createElement("label");
+	label.innerHTML = "Slide to Delete: "
+	label.htmlFor = "SlideId";
+
+	document.getElementById("container").appendChild(label).appendChild(select);
+
+	}
+
+	function update() {
+		
+		var i;
+
+		var jsonData = readJSON("/StaffRoomPres.json");
+		data = JSON.parse(jsonData);
+		
+		var selected = document.getElementById("SlideId");
+
+		var slideNumber = selected.value;
+
+		document.getElementById("title").innerHTML = data[slideNumber-1].Title;
+		document.getElementById("message").innerHTML = data[slideNumber-1].Message;
+
+	}
+
+</script>
