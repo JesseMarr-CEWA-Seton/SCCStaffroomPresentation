@@ -156,11 +156,6 @@ function readJSON(file) {
 		return request.responseText;
 }
 
-function reloadpage(slideNumber, slideLength) {
-  if (slideNumber > slideLength) {
-    location.reload();
-  }
-}
 
 function showSlides() {
   var i;
@@ -179,7 +174,6 @@ function showSlides() {
 
   
   j = slides.length;
-  reloadpage(slideIndex, j);
   if (slideIndex > slides.length) {slideIndex = 1}    
   for (i = 0; i < dots.length; i++) {
     dots[i].className = dots[i].className.replace(" active", "");
@@ -190,9 +184,14 @@ function showSlides() {
 	}
   }
   
-  // Put text to change here
-  document.getElementById("title").innerHTML = slides[slideIndex-1].Title;
-  document.getElementById("message").innerHTML = slides[slideIndex-1].Message;
+  if (j != 0) {
+	  // Put text to change here
+	  document.getElementById("title").innerHTML = slides[slideIndex-1].Title;
+	  document.getElementById("message").innerHTML = slides[slideIndex-1].Message;
+  } else {
+	document.getElementById("title").innerHTML = "";
+	  document.getElementById("message").innerHTML = "";
+  }
   
   
   dots[slideIndex-1].className += " active";
