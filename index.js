@@ -100,18 +100,24 @@ app.post('/content/StaffRoomPres/AddNewEntries.html', async (request, response) 
 
  var newEntry = {"Title": request.body.Title, "Message":request.body.Message, "ExpiryDate":request.body.ExpiryDate};
 
-  fs.readFile('content/StaffRoomPres/StaffRoomPres.json', 'utf8', function readFileCallback(err, data){
-      if (err){
-          console.log(err);
-      } else {
-      obj = JSON.parse(data); //now it an object
-      obj.push(newEntry);
-      var strNotes = JSON.stringify(obj);
-            fs.writeFile('content/StaffRoomPres/StaffRoomPres.json',strNotes, function(err){
-                if(err) return console.log(err);
-                console.log('Note added');
-            });
+ if (request.body.Password == "NoticeMe!") {
+
+    fs.readFile('content/StaffRoomPres/StaffRoomPres.json', 'utf8', function readFileCallback(err, data){
+    if (err){
+        console.log(err);
+    } else {
+    obj = JSON.parse(data); //now it an object
+    obj.push(newEntry);
+    var strNotes = JSON.stringify(obj);
+          fs.writeFile('content/StaffRoomPres/StaffRoomPres.json',strNotes, function(err){
+              if(err) return console.log(err);
+              console.log('Note added');
+          });
   }});
+
+ }
+
+  
 
   response.send( await readFile('./content/StaffRoomPres/AddNewEntries.html', 'utf8') );
 
