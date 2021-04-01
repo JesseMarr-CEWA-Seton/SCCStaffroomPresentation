@@ -1,32 +1,114 @@
-<center>
+<!DOCTYPE html>
+<html>
+	<style>
+		body {
+			text-align: center;
+			font-family: Verdana, sans-serif;
+			color: white;
+			background-image: url('https://sccstaffroompresentation.azurewebsites.net/content/StaffRoomPres/background.jpg');
+			background-repeat: no-repeat;
+			background-attachment: fixed;
+			background-size: 100% 100%;
+		}
+		
+		h1 {
+			font-family: Cursive;
+			font-size: 400%;
+			text-align: center;
+		}
+		
+		table {
+			border: 0px solid white;
+			padding: 50px;
+			padding-bottom: 80px;
+		}
 
-<p><a href="https://www.textfixer.com/html/convert-text-html.php" target="_blank">Convert text using this site.<br>https://www.textfixer.com/html/convert-text-html.php</a></p>
-<form method="post" name="checkout">
-<table border="0">
-	<tr>
-	<td><label for="Title">Title: </label>
-	</td>
-	<td><input type="text" name="Title" id="Title" placeholder="Put title here!" required/><font color="red">*</font>
-	</td>
-	</tr>
+		input {
+			width: 50%;
+		}
+		
+		input.button {
+			width: 30%;
+			background-color: white;
+			border: 2px solid black;
+			color: black;
+			padding: 15px 32px;
+			text-align: center;
+			text-decoration: none;
+			display: inline-block;
+			font-size: 16px;
+			transition-duration: 0.4s;
+			cursor: pointer;
+		}
+		
+		.button:hover {
+			background-color: black;
+			color: white;
+		}
+		
+		.ast {
+			vertical-align: top;
+		}
+	</style>
 
-	<tr>
-	<td><label for="Message">Message: </label>
-	</td>
-	<td><textarea rows="4" cols="50" name="Message" id="Message" placeholder="Enter message here!" required/></textarea><font color="red">*</font>
-	</td>
-	</tr>
-	
-	<tr>
-    <td><label for="Name">Expiry Date: </label>
-	</td>
-	<td>
-	<input id="ExpiryDate" name="ExpiryDate" type="date">
-	</td>
-	</tr>
-	<td><br><br>
-	<input type="submit" value="Submit" /></td>
-	<td><br><br>
-	<input type="reset" value="Reset Form" name="reset" onclick="Update()"></td>
-</table>
-</form>
+	<head>
+		<title>Add Notices</title>
+	</head>
+
+	<body>
+		<h1>Add Notices</h1>
+
+		<center>
+
+		<form method="post" name="checkout">
+			<table border="0">
+				<tr>
+					<td align="right">
+						<label for="Title">Title: </label>
+					</td>
+					
+					<td class="ast">
+						<input type="text" name="Title" id="Title" placeholder="Put title here!" required/><font color="red" class="ast">*</font>
+					</td>
+				</tr>
+
+				<tr>
+					<td align="right">
+						<label for="Message">Message: </label>
+					</td>
+					
+					<td class="ast">
+						<textarea rows="4" cols="50" name="Message" id="Message" placeholder="Enter message here!" required/></textarea><font color="red" class="ast">*</font>
+					</td>
+				</tr>
+
+				<tr>
+					<td align="right">
+						<label for="Name">Expiry Date: </label>
+					</td>
+					
+					<td>
+						<input id="ExpiryDate" name="ExpiryDate" type="date">
+					</td>
+				</tr>
+				
+				<tr>
+					<td align="right">
+						<label for="Title">Password: </label>
+					</td>
+					
+					<td class="ast">
+						<input type="password" name="Password" id="Password" placeholder="" required/><font color="red" class="ast">*</font>
+					</td>
+				</tr>
+				
+				<td colspan="2" align="center">
+					<br><br>
+					<input type="submit" value="Submit" class="button"/>
+					<input type="reset" value="Reset Form" name="reset" onclick="Update()" class="button">
+				</td>
+			</table>
+		</form>
+
+	</body>
+</html>
