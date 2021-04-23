@@ -60,7 +60,7 @@
 
 		<center>
 
-		<form method="post" name="checkout">
+		<form method="post" name="checkout" enctype="multipart/form-data">
 			<table border="0">
 				<tr>
 					<td align="right">
@@ -89,6 +89,16 @@
 					
 					<td>
 						<input id="ExpiryDate" name="ExpiryDate" type="date">
+					</td>
+				</tr>
+
+				<tr>
+					<td align="right">
+						<label for="Name">Background Image: </label>
+					</td>
+					
+					<td>
+						<input id="background" name="background" type="file">
 					</td>
 				</tr>
 				
