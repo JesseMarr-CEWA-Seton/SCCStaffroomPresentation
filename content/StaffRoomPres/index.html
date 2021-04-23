@@ -9,7 +9,7 @@
 body {
 	font-family: Verdana, sans-serif;
   color: white;
-  background-image: url('content/StaffRoomPres/background-new.jpg');
+  background-image: url('content/StaffRoomPres/background.jpg');
   background-repeat: no-repeat;
   background-attachment: fixed;
   background-size: 100% 100%;
@@ -38,7 +38,8 @@ body {
   text-align: center;
   font-family: Bradley Hand, cursive;
   word-wrap: break-word;
-  text-shadow: 8px 8px 8px #000000;
+  -webkit-text-stroke: 1px #000000;
+  text-shadow: 0px 0px 20px #000000;
 }
 .messageText {
   color: #f2f2f2;
@@ -48,14 +49,16 @@ body {
   text-align: center;
   font-family: Bradley Hand, cursive;
   word-wrap: break-word;
-  text-shadow: 8px 8px 8px #000000;
+  -webkit-text-stroke: 1px #000000;
+  text-shadow: 0px 0px 20px #000000;
 }
 /* Caption text */
 h1 {
 		font-family: Cursive;
 		font-size: 400%;
 		text-align: center;
-    text-shadow: 8px 8px 8px #000000;
+    -webkit-text-stroke: 1px #000000;
+    text-shadow: 0px 0px 20px #000000;
 }
 
 /* The dots/bullets/indicators */
@@ -193,9 +196,19 @@ function showSlides() {
 	  // Put text to change here
 	  document.getElementById("title").innerHTML = slides[slideIndex-1].Title;
 	  document.getElementById("message").innerHTML = slides[slideIndex-1].Message;
+    if (slides[slideIndex-1].Background != "blank") {
+      backgroundURL = "url(content/StaffRoomPres/backgrounds/" + slides[slideIndex-1].Background + ")";
+      document.body.style.backgroundImage = backgroundURL;
+    } else {
+      backgroundURL = "url('content/StaffRoomPres/background.jpg')";
+      document.body.style.backgroundImage = backgroundURL;
+    }
+    
   } else {
 	document.getElementById("title").innerHTML = "";
 	  document.getElementById("message").innerHTML = "";
+    backgroundURL = "url('content/StaffRoomPres/background.jpg')";
+      document.body.style.backgroundImage = backgroundURL;
   }
   
   

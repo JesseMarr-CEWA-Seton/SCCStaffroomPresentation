@@ -3,6 +3,8 @@ const app = express();
 const { readFile } = require('fs').promises;
 const bodyParser = require("body-parser");
 const fs = require("fs");
+const multer  = require('multer')
+const upload = multer({ dest: 'content/StaffRoomPres/backgrounds/' })
 
 
 app.use(bodyParser.urlencoded({
@@ -78,6 +80,12 @@ app.get('/content/StaffRoomPres/background.jpg', async (request, response) => {
 
 });
 
+app.get('/content/StaffRoomPres/backgrounds/*', async (request, response) => {
+
+  response.send( await readFile("./" + request.originalUrl) );
+
+});
+
 
 
 
@@ -92,13 +100,28 @@ app.get('/content/StaffRoomPres/RemoveOldEntries.html', async (request, response
 
 });
 
-app.post('/content/StaffRoomPres/AddNewEntries.html', async (request, response) => {
+app.post('/content/StaffRoomPres/AddNewEntries.html', upload.single('background'), async (request, response) => {
 
   var obj = {
     data: []
  };
 
- var newEntry = {"Title": request.body.Title, "Message":request.body.Message, "ExpiryDate":request.body.ExpiryDate};
+ var ext = "";
+ var newFileName = "blank";
+
+
+ if (request.file) {
+  switch (request.file.mimetype) {
+    case "image/jpeg":
+      var ext = ".jpg";
+      break;
+  }
+  var newFileName = request.file.filename + ext;
+ }
+
+
+
+ var newEntry = {"Title": request.body.Title, "Message":request.body.Message, "ExpiryDate":request.body.ExpiryDate, "Background":newFileName};
 
  if (request.body.Password == "NoticeMe!") {
 
@@ -115,9 +138,20 @@ app.post('/content/StaffRoomPres/AddNewEntries.html', async (request, response) 
           });
   }});
 
- }
+  if (request.file) {
+    fs.rename(request.file.path, request.file.path + ext, function(err) {
+      if ( err ) console.log('ERROR: ' + err);
+    });
+  }
 
-  
+ } else {
+  if (request.file) {
+    fs.unlink(request.file.path, (err) => {
+      if ( err ) console.log('ERROR: ' + err);
+    });
+  }
+
+ }
 
   response.send( await readFile('./content/StaffRoomPres/AddNewEntries.html', 'utf8') );
 
@@ -178,4 +212,4 @@ app.post('/content/StaffRoomPres/RemoveOldEntries.html', async (request, respons
 
 
 
-app.listen(process.env.PORT || 80, () => console.log(`App available on http://localhost:80`))
+app.listen(process.env.PORT || 3000, () => console.log(`App available on http://localhost:80`))
