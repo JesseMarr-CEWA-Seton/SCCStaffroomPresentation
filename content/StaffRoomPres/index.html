@@ -215,11 +215,15 @@ function showSlides() {
   j = slides.length;
   if (slideIndex > slides.length) {slideIndex = 1}    
   for (i = 0; i < dots.length; i++) {
-    dots[i].className = dots[i].className.replace(" active", "");
-	if (i > (slides.length - 1)) {
+	if (slides.length == 1) {
 		dots[i].style.display = "none"; 
 	} else {
-		dots[i].style.display = ""; 
+		dots[i].className = dots[i].className.replace(" active", "");
+		if (i > (slides.length - 1)) {
+			dots[i].style.display = "none"; 
+		} else {
+			dots[i].style.display = ""; 
+		}
 	}
   }
   
