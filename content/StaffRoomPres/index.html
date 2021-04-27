@@ -4,109 +4,136 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Notices</title>
-<style>
-* {box-sizing: border-box;}
-body {
-	font-family: Verdana, sans-serif;
-  color: white;
-  background-image: url('content/StaffRoomPres/background.jpg');
-  background-repeat: no-repeat;
-  background-attachment: fixed;
-  background-size: 100% 100%;
-  background-size: cover;
-  background-position: 50% 50%;
-}
-.mySlides {
-	display: none;
-	text-align: center;
-}
 
-/* Slideshow container */
-.slideshow-container {
-  max-width: 100%;
-  max-hight: 100%;
-  position: relative;
-  margin: auto;
-}
+	<style>
+		* {box-sizing: border-box;}
+		
+		body {
+			font-family: Bradley Hand, cursive;
+			color: white;
+			background-image: url('content/StaffRoomPres/background.jpg');
+			background-repeat: no-repeat;
+			background-attachment: fixed;
+			background-size: 100vw 100vh;
+			background-size: cover;
+  			background-position: 50% 50%;
+			margin: 0px;
+			padding: 0px;
+		}
 
-/* Caption text */
-.titleText {
-  color: #f2f2f2;
-  font-size: 128px;
-  padding: 8px 12px;
-  width: 100%;
-  text-align: center;
-  font-family: Bradley Hand, cursive;
-  word-wrap: break-word;
-  -webkit-text-stroke: 1px #000000;
-  text-shadow: 0px 0px 20px #000000;
-}
-.messageText {
-  color: #f2f2f2;
-  font-size: 72px;
-  padding: 8px 8px;
-  width: 100%;
-  text-align: center;
-  font-family: Bradley Hand, cursive;
-  word-wrap: break-word;
-  -webkit-text-stroke: 1px #000000;
-  text-shadow: 0px 0px 20px #000000;
-}
-/* Caption text */
-h1 {
-		font-family: Cursive;
-		font-size: 400%;
-		text-align: center;
-    -webkit-text-stroke: 1px #000000;
-    text-shadow: 0px 0px 20px #000000;
-}
+		/* Caption text */
+		
+		.titleText {
+			color: #f2f2f2;
+			width: 100%;
+			text-align: center;
+			font-family: Bradley Hand, cursive;
+			margin: 0px;
+			padding: 0px;
+		}
+		
+		#title {
+			font-size: 8vh;
+			margin: 0px;
+			padding: 0px;
+			padding-bottom: 5vh;
+			width: 100%;
+			word-wrap: break-word;
+			}
+		
 
-/* The dots/bullets/indicators */
-.dot {
-  height: 32px;
-  width: 32px;
-  margin: 0 2px;
-  background-color: #404040;
-  font-size: 24px;
-  border-radius: 50%;
-  display: inline-block;
-  transition: background-color 0.6s ease;
-  color: #bbb;
-  
-	}
-	
-	.active {
-		background-color: #bbb;
-		color: #404040;
-	}
+		.messageText {
+			color: #f2f2f2;
+			width: 100%;
+			text-align: center;
+			font-family: Bradley Hand, cursive;
+			margin: 0px;
+			padding: 0px;
+			-webkit-text-stroke: 1px #000000;
+  			text-shadow: 0px 0px 20px #000000;
+		}
+		
+		#message {
+			font-size: 6vh;
+			margin: 0px;
+			padding: 0px;
+			width: 100%;
+			word-wrap: break-word;
+			-webkit-text-stroke: 1px #000000;
+  			text-shadow: 0px 0px 20px #000000;
+		}
 
-/* Fading animation */
-.fade {
-  -webkit-animation-name: fade;
-  -webkit-animation-duration: 0.5s;
-  animation-name: fade;
-  animation-duration: 0.5s;
-}
+		/* Caption text */
+		
+		h1 {
+			font-family: Cursive;
+			font-size: 6vh;
+			height: 8vh;
+			text-align: center;
+			margin: 0px;
+			padding: 0px;
+			padding-bottom: 10vh;
+			-webkit-text-stroke: 1px #000000;
+  			text-shadow: 0px 0px 20px #000000;
+		}
 
-@-webkit-keyframes fade {
-  from {opacity: .4} 
-  to {opacity: 1}
-}
+		/* The dots/bullets/indicators */
+		
+		.dots {
+			height: 5vh;
+			margin: 0px;
+			padding: 0px;
+			padding-bottom: 10vh;
+		}
+		
+		.dot {
+			height: 32px;
+			width: 32px;
+			margin: 0 2px;
+			background-color: #404040;
+			font-size: 24px;
+			border-radius: 50%;
+			display: inline-block;
+			transition: background-color 0.6s ease;
+			color: #bbb;
+			margin: 0px;
+			padding: 0px;
+		}
 
-@keyframes fade {
-  from {opacity: .4} 
-  to {opacity: 1}
-}
+		.active {
+			background-color: #bbb;
+			color: #404040;
+		}
 
-/* On smaller screens, decrease text size */
-@media only screen and (max-width: 300px) {
-  .text {font-size: 11px}
-}
-</style>
+		/* Fading animation */
+		
+		.fade {
+			-webkit-animation-name: fade;
+			-webkit-animation-duration: 0.5s;
+			animation-name: fade;
+			animation-duration: 0.5s;
+		}
+
+		@-webkit-keyframes fade {
+			from {opacity: .4} 
+			to {opacity: 1}
+		}
+
+		@keyframes fade {
+			from {opacity: .4} 
+			to {opacity: 1}
+		}
+
+		/* On smaller screens, decrease text size */
+		
+		@media only screen and (max-width: 300px) {
+			.text {font-size: 11px}
+		}
+	</style>
 </head>
 <body>
   <h1>Notices</h1>
-<div style="text-align:center">
+<div style="text-align:center" class="dots">
       <span class="dot" style="display: none">1</span> 
 			<span class="dot" style="display: none">2</span> 
 			<span class="dot" style="display: none">3</span> 
