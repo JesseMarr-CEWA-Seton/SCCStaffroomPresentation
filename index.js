@@ -38,6 +38,14 @@ app.get('/', async (request, response) => {
             fs.writeFile('content/StaffRoomPres/StaffRoomPres.json',strNotes, function(err){
                 if(err) return console.log(err);
                 console.log('Note deleted');
+                if (removed[0].Background != 'blank') {
+                  fs.unlink('content/StaffRoomPres/backgrounds/' + removed[0].Background, (err) => {
+                    if (err) {
+                      console.error(err)
+                      return
+                    }
+                  });
+                }
             });
       } else {
         i++;
@@ -186,6 +194,14 @@ app.post('/content/StaffRoomPres/RemoveOldEntries.html', async (request, respons
               fs.writeFile('content/StaffRoomPres/StaffRoomPres.json',strNotes, function(err){
                   if(err) return console.log(err);
                   console.log('Note deleted');
+                  if (removed[0].Background != 'blank') {
+                    fs.unlink('content/StaffRoomPres/backgrounds/' + removed[0].Background, (err) => {
+                      if (err) {
+                        console.error(err)
+                        return
+                      }
+                    });
+                  }
               });
         }
         
