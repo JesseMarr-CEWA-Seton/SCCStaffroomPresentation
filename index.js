@@ -161,7 +161,7 @@ app.post('/content/StaffRoomPres/AddNewEntries.html', upload.single('background'
 
  }
 
-  response.send( await readFile('./content/StaffRoomPres/AddNewEntries.html', 'utf8') );
+  response.redirect('/');
 
 });
 
@@ -210,11 +210,85 @@ app.post('/content/StaffRoomPres/RemoveOldEntries.html', async (request, respons
 }
 
 
-  response.send( await readFile('./content/StaffRoomPres/RemoveOldEntries.html', 'utf8') );
+  response.redirect('/');
 
 });
 
 
+
+//// Redirects for "/content/StaffRoomPres/AddNewEntries.html"
+app.get('/content/StaffRoomPres/ReorderEntries.html', async (request, response) => {
+
+  response.send( await readFile('./content/StaffRoomPres/ReorderEntries.html', 'utf8') );
+
+});
+
+
+app.post('/content/StaffRoomPres/ReorderEntries.html', async (request, response) => {
+
+  var requestIdMove = request.body.SlideId;
+  var requestMoveTo = request.body.MoveTo;
+  var i = 0;
+
+
+
+  if ((request.body.Password == "NoticeMe!") && (requestIdMove != requestMoveTo) && (requestIdMove != 0) && (requestMoveTo != 0)) {
+
+    fs.readFile('content/StaffRoomPres/StaffRoomPres.json', 'utf8', function readFileCallback(err, data){
+        if (err){
+            console.log(err);
+        } else {
+        obj = JSON.parse(data); //now it an object
+
+        //
+
+
+        if (requestMoveTo == "Front") {
+          console.log('Move forward');
+          
+
+          console.log(requestIdMove);
+          console.log(requestMoveTo);
+          console.log(obj.length);
+
+          movedObj = obj.splice(requestIdMove - 1,1);
+          var newEntry = {"Title": movedObj[0].Title, "Message":movedObj[0].Message, "ExpiryDate":movedObj[0].ExpiryDate, "Background":movedObj[0].Background};
+          obj.unshift(newEntry);
+
+        }
+
+        if (requestMoveTo == "Back") {
+          console.log('Move back');
+
+          console.log(requestIdMove);
+          console.log(requestMoveTo);
+          console.log(obj.length);
+
+          movedObj = obj.splice(requestIdMove - 1,1);
+          var newEntry = {"Title": movedObj[0].Title, "Message":movedObj[0].Message, "ExpiryDate":movedObj[0].ExpiryDate, "Background":movedObj[0].Background};
+          obj.push(newEntry);
+
+        }
+          
+          var strNotes = JSON.stringify(obj);
+              fs.writeFile('content/StaffRoomPres/StaffRoomPres.json',strNotes, function(err){
+                  if(err) return console.log(err);
+                  console.log('Note moved');
+              });
+
+
+        }
+        
+        
+    });
+   
+
+}
+
+
+response.send( await readFile('./content/StaffRoomPres/ReorderEntries.html', 'utf8') );
+
+});
 
 
 

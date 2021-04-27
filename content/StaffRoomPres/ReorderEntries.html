@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html>
+	<style>
+		body {
+			text-align: center;
+			font-family: Verdana, sans-serif;
+			color: white;
+			background-image: url('https://sccstaffroompresentation.azurewebsites.net/content/StaffRoomPres/background.jpg');
+			background-repeat: no-repeat;
+			background-attachment: fixed;
+			background-size: 100vw 100vh;
+			background-size: cover;
+  			background-position: 50% 50%;
+			-webkit-text-stroke: 1px #000000;
+  			text-shadow: 0px 0px 20px #000000;
+		}
+		
+		h1 {
+			font-family: Cursive;
+			font-size: 400%;
+			text-align: center;
+		}
+		
+		table {
+			border: 0px solid white;
+			padding: 0px;
+			padding-bottom: 00px;
+			width: 600px;
+			font-size: 150%;
+		}
+		
+		input {
+			width: 50%;
+		}
+		
+		input.button {
+			width: 30%;
+			background-color: white;
+			border: 2px solid black;
+			color: black;
+			padding: 15px 32px;
+			text-align: center;
+			text-decoration: none;
+			display: inline-block;
+			font-size: 16px;
+			transition-duration: 0.4s;
+			cursor: pointer;
+		}
+		
+		.button:hover {
+			background-color: black;
+			color: white;
+		}
+		
+		.ast {
+			vertical-align: top;
+		}
+		
+		td {
+		border: 0px solid red;
+		padding: 8px;
+		}
+		
+		.leftcol {
+			width: 30%;
+			padding-right: 20px;
+		}
+	</style>
+	
+	<head>
+		<title>Remove Notices</title>
+	</head>
+
+	<body>
+		<h1>Remove Notices</h1>
+		
+		<center>
+		
+		<form method="post" name="checkout">
+			<table border="0">
+				<tr>
+					<td align="right" class="leftcol">
+						<div id="container-label" onchange="update();"></div>
+					</td>
+					
+					<td>
+						<div id="container-drop" onchange="update();"></div>
+					</td>
+				</tr>
+				
+				<tr>
+					<td align="right" class="leftcol">
+						<label for="Title">Title: </label>
+					</td>
+				
+					<td>
+						<div class="titleText"><p id="title"></p></div>
+					</td>
+				</tr>
+				
+				<tr>
+					<td align="right" class="leftcol">
+						<label for="Message">Message: </label>
+					</td>
+				
+					<td>
+						<div class="messageText">
+							<p id="message"></p>
+						</div>
+					</td>
+				</tr>
+
+				<tr>
+					<td align="right" class="leftcol">
+						<label for="MoveTo">Move To: </label>
+					</td>
+					
+					<td>
+						<select name="MoveTo" id="MoveTo">
+							<option value="Front">Front</option>
+							<option value="Back">Back</option>
+						  </select>
+					</td>
+				</tr>
+
+				
+				
+				<tr>
+					<td align="right" class="leftcol">
+						<label for="Title">Password: </label>
+					</td>
+					
+					<td class="ast">
+						<input type="password" name="Password" id="Password" placeholder="" required/><font color="red" class="ast">*</font>
+					</td>
+				</tr>
+				
+				<tr>
+					<td colspan="2" align="center">
+						<br><br>
+						<input type="submit" value="Submit" class="button"/>
+					</td>
+				</tr>
+			</table>
+		</form>
+
+
+<script>
+	var slideIndex = 0;
+	CountSlides();
+	
+	function readJSON(file) {
+		var request = new XMLHttpRequest();
+		request.open('GET', file, false);
+		request.send(null);
+		if (request.status == 200)
+			return request.responseText;
+	}
+	
+	function CountSlides() {
+	  var i;
+
+	
+	
+	  var jsonData = readJSON("/StaffRoomPres.json");
+	  data = JSON.parse(jsonData);
+
+
+	var select = document.createElement("select");
+	select.name = "SlideId";
+	select.id = "SlideId"
+
+	var option = document.createElement("option");
+		option.value = 0;
+		option.text = "";
+		select.appendChild(option);
+
+	for (i = 0; i < data.length; i++) {
+		var option = document.createElement("option");
+		option.value = i + 1;
+		option.text = i + 1;
+		select.appendChild(option);
+	}
+
+	var label = document.createElement("label");
+	label.innerHTML = "Slide to Move: "
+	label.htmlFor = "SlideId";
+	
+	
+	document.getElementById("container-label").appendChild(label);
+	document.getElementById("container-drop").appendChild(select);
+
+	}
+
+	function update() {
+		
+		var i;
+
+		var jsonData = readJSON("/StaffRoomPres.json");
+		data = JSON.parse(jsonData);
+		
+		var selected = document.getElementById("SlideId");
+
+		var slideNumber = selected.value;
+
+		if (slideNumber != 0) {
+			document.getElementById("title").innerHTML = data[slideNumber-1].Title;
+			document.getElementById("message").innerHTML = data[slideNumber-1].Message;
+
+			if (data[slideNumber-1].Background != "blank") {
+				backgroundURL = "url(backgrounds/" + data[slideNumber-1].Background + ")";
+				document.body.style.backgroundImage = backgroundURL;
+			} else {
+				backgroundURL = "url('background.jpg')";
+				document.body.style.backgroundImage = backgroundURL;
+			}
+		} else {
+			document.getElementById("title").innerHTML = "";
+			document.getElementById("message").innerHTML = "";
+			backgroundURL = "url('background.jpg')";
+			document.body.style.backgroundImage = backgroundURL;
+		}
+
+		
+
+	}
+
+</script>
+
+	</body>
+</html>
