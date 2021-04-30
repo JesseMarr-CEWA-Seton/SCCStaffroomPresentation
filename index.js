@@ -101,10 +101,10 @@ app.get('/content/StaffRoomPres/backgrounds/*', async (request, response) => {
 
 
 
-//// Redirects for "/content/StaffRoomPres/RemoveOldEntries.html"
-app.get('/content/StaffRoomPres/RemoveOldEntries.html', async (request, response) => {
+//// Redirects for "/content/StaffRoomPres/RemoveEntries.html"
+app.get('/content/StaffRoomPres/RemoveEntries.html', async (request, response) => {
 
-  response.send( await readFile('./content/StaffRoomPres/RemoveOldEntries.html', 'utf8') );
+  response.send( await readFile('./content/StaffRoomPres/RemoveEntries.html', 'utf8') );
 
 });
 
@@ -174,7 +174,7 @@ app.get('/content/StaffRoomPres/AddNewEntries.html', async (request, response) =
 });
 
 
-app.post('/content/StaffRoomPres/RemoveOldEntries.html', async (request, response) => {
+app.post('/content/StaffRoomPres/RemoveEntries.html', async (request, response) => {
 
   var requestIdDelete = request.body.SlideId;
 
