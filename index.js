@@ -123,6 +123,11 @@ app.post('/content/StaffRoomPres/AddNewEntries.html', upload.single('background'
     case "image/jpeg":
       var ext = ".jpg";
       break;
+    case "image/png":
+      var ext = ".jpg";
+      break;
+    default:
+      newFileName = "blank";
   }
   var newFileName = request.file.filename + ext;
  }
