@@ -25,7 +25,7 @@ function backupJson() {
 
 function restoreJson() {
   fs.copyFile('./content/StaffRoomPres/StaffRoomPresBackup.json', './content/StaffRoomPres/StaffRoomPres.json', (err) => {
-    if (err) throw err;
+    if (err) console.log(err);
     console.log('file restored');
   });
 }
@@ -174,9 +174,14 @@ app.post('/content/StaffRoomPres/AddNewEntries.html', upload.single('background'
   }
  }
 
+  var message = request.body.Message;
+  var breaks = message.search("\r\n");
+  while(breaks != -1) {
+    message = message.replace("\r\n", "<br>");
+    breaks = message.search("\r\n");
+  }
 
-
- var newEntry = {"Title": request.body.Title, "Message":request.body.Message, "ExpiryDate":request.body.ExpiryDate, "Background":newFileName};
+ var newEntry = {"Title": request.body.Title, "Message":message, "ExpiryDate":request.body.ExpiryDate, "Background":newFileName};
 
  if (request.body.Password == "NoticeMe!") {
 
