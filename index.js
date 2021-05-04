@@ -307,11 +307,6 @@ app.post('/content/StaffRoomPres/ReorderEntries.html', async (request, response)
         if (requestMoveTo == "Front") {
           console.log('Move forward');
           
-
-          console.log(requestIdMove);
-          console.log(requestMoveTo);
-          console.log(obj.length);
-
           movedObj = obj.splice(requestIdMove - 1,1);
           var newEntry = {"Title": movedObj[0].Title, "Message":movedObj[0].Message, "ExpiryDate":movedObj[0].ExpiryDate, "Background":movedObj[0].Background};
           obj.unshift(newEntry);
@@ -320,10 +315,6 @@ app.post('/content/StaffRoomPres/ReorderEntries.html', async (request, response)
 
         if (requestMoveTo == "Back") {
           console.log('Move back');
-
-          console.log(requestIdMove);
-          console.log(requestMoveTo);
-          console.log(obj.length);
 
           movedObj = obj.splice(requestIdMove - 1,1);
           var newEntry = {"Title": movedObj[0].Title, "Message":movedObj[0].Message, "ExpiryDate":movedObj[0].ExpiryDate, "Background":movedObj[0].Background};
