@@ -16,6 +16,23 @@ function isDateBeforeToday(date) {
 }
 
 
+function backupJson() {
+  fs.copyFile('./content/StaffRoomPres/StaffRoomPres.json', './content/StaffRoomPres/StaffRoomPresBackup.json', (err) => {
+    if (err) throw err;
+    console.log('file backed up');
+  });
+}
+
+function restoreJson() {
+  fs.copyFile('./content/StaffRoomPres/StaffRoomPresBackup.json', './content/StaffRoomPres/StaffRoomPres.json', (err) => {
+    if (err) throw err;
+    console.log('file restored');
+  });
+}
+
+
+
+
 // Default redirect
 app.get('/', async (request, response) => {
 
@@ -46,6 +63,13 @@ app.get('/', async (request, response) => {
                     }
                   });
                 }
+                fs.readFile('content/StaffRoomPres/StaffRoomPres.json', 'utf8', (err,data) => {
+                  if (data.length > 0) {
+                    backupJson();
+                  } else {
+                    restoreJson();
+                  }
+                });
             });
       } else {
         i++;
@@ -79,6 +103,12 @@ app.get('/', async (request, response) => {
 app.get('/StaffRoomPres.json', async (request, response) => {
 
   response.send( await readFile('./content/StaffRoomPres/StaffRoomPres.json', 'utf8') );
+
+});
+
+app.get('/StaffRoomPresBackup.json', async (request, response) => {
+
+  response.send( await readFile('./content/StaffRoomPres/StaffRoomPresBackup.json', 'utf8') );
 
 });
 
@@ -145,6 +175,13 @@ app.post('/content/StaffRoomPres/AddNewEntries.html', upload.single('background'
           fs.writeFile('content/StaffRoomPres/StaffRoomPres.json',strNotes, function(err){
               if(err) return console.log(err);
               console.log('Note added');
+              fs.readFile('content/StaffRoomPres/StaffRoomPres.json', 'utf8', (err,data) => {
+                if (data.length > 0) {
+                  backupJson();
+                } else {
+                  restoreJson();
+                }
+              });
           });
   }});
 
@@ -204,6 +241,13 @@ app.post('/content/StaffRoomPres/RemoveEntries.html', async (request, response) 
                       }
                     });
                   }
+                  fs.readFile('content/StaffRoomPres/StaffRoomPres.json', 'utf8', (err,data) => {
+                    if (data.length > 0) {
+                      backupJson();
+                    } else {
+                      restoreJson();
+                    }
+                  });
               });
         }
         
@@ -276,6 +320,13 @@ app.post('/content/StaffRoomPres/ReorderEntries.html', async (request, response)
               fs.writeFile('content/StaffRoomPres/StaffRoomPres.json',strNotes, function(err){
                   if(err) return console.log(err);
                   console.log('Note moved');
+                  fs.readFile('content/StaffRoomPres/StaffRoomPres.json', 'utf8', (err,data) => {
+                    if (data.length > 0) {
+                      backupJson();
+                    } else {
+                      restoreJson();
+                    }
+                  });
               });
 
 
