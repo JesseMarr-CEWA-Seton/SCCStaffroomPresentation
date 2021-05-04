@@ -30,12 +30,27 @@ function restoreJson() {
   });
 }
 
+function restoreJsonIfNewer() {
+  try {
+    const jsonFileInfo = fs.statSync('./content/StaffRoomPres/StaffRoomPres.json');
+    const jsonBackupFileInfo = fs.statSync('./content/StaffRoomPres/StaffRoomPresBackup.json');
+
+    jsonEditTime = jsonFileInfo.mtime;
+    jsonBackupEditTime = jsonBackupFileInfo.mtime;
+    if (jsonEditTime < jsonBackupEditTime) {
+      restoreJson();
+    }
+  } catch (error) {
+      console.log(error);
+  }
+}
 
 
 
 // Default redirect
 app.get('/', async (request, response) => {
 
+  restoreJsonIfNewer();
     
   // Remove old entries
   fs.readFile('content/StaffRoomPres/StaffRoomPres.json', 'utf8', function readFileCallback(err, data){
