@@ -121,15 +121,12 @@ app.post('/content/StaffRoomPres/AddNewEntries.html', upload.single('background'
  if (request.file) {
   switch (request.file.mimetype) {
     case "image/jpeg":
-      var ext = ".jpg";
+      var newFileName = request.file.filename + ".jpg";
       break;
     case "image/png":
-      var ext = ".jpg";
+      var newFileName = request.file.filename + ".jpg";
       break;
-    default:
-      newFileName = "blank";
   }
-  var newFileName = request.file.filename + ext;
  }
 
 
@@ -151,7 +148,7 @@ app.post('/content/StaffRoomPres/AddNewEntries.html', upload.single('background'
           });
   }});
 
-  if (request.file) {
+  if (newFileName != "blank") {
     fs.rename(request.file.path, request.file.path + ext, function(err) {
       if ( err ) console.log('ERROR: ' + err);
     });
