@@ -64,42 +64,43 @@ app.get('/', async (request, response) => {
     if (err){
         console.log(err);
     } else {
-    obj = JSON.parse(data); //now it an object
+      if (data.length >= 2) {
+        obj = JSON.parse(data); //now it an object
 
-    var i = 0;
-    obj.forEach(async function(element) {
-      
-      
-      if ((isDateBeforeToday(new Date(element.ExpiryDate))) || (element.Title == "")) {
-        removed = obj.splice(i,1);
+        var i = 0;
+        obj.forEach(async function(element) {
+          
+          
+          if ((isDateBeforeToday(new Date(element.ExpiryDate))) || (element.Title == "")) {
+            removed = obj.splice(i,1);
 
-        var strNotes = JSON.stringify(obj);
-            fs.writeFile('content/StaffRoomPres/StaffRoomPres.json',strNotes, function(err){
-                if(err) return console.log(err);
-                console.log('Note deleted');
-                if (removed[0].Background != 'blank') {
-                  fs.unlink('content/StaffRoomPres/backgrounds/' + removed[0].Background, (err) => {
-                    if (err) {
-                      console.error(err)
-                      return
+            var strNotes = JSON.stringify(obj);
+                fs.writeFile('content/StaffRoomPres/StaffRoomPres.json',strNotes, function(err){
+                    if(err) return console.log(err);
+                    console.log('Note deleted');
+                    if (removed[0].Background != 'blank') {
+                      fs.unlink('content/StaffRoomPres/backgrounds/' + removed[0].Background, (err) => {
+                        if (err) {
+                          console.error(err)
+                          return
+                        }
+                      });
                     }
-                  });
-                }
-                fs.readFile('content/StaffRoomPres/StaffRoomPres.json', 'utf8', (err,data) => {
-                  if (data.length > 0) {
-                    backupJson();
-                  } else {
-                    restoreJson();
-                  }
+                    fs.readFile('content/StaffRoomPres/StaffRoomPres.json', 'utf8', (err,data) => {
+                      if (data.length >= 2) {
+                        backupJson();
+                      } else {
+                        restoreJson();
+                      }
+                    });
                 });
-            });
-      } else {
-        i++;
+          } else {
+            i++;
+          }
+        })
       }
-    })
-
-
-  }});
+    }
+  });
   
   
   response.send( await readFile('./content/StaffRoomPres/index.html', 'utf8') );
@@ -196,21 +197,24 @@ app.post('/content/StaffRoomPres/AddNewEntries.html', upload.single('background'
     if (err){
         console.log(err);
     } else {
-    obj = JSON.parse(data); //now it an object
-    obj.push(newEntry);
-    var strNotes = JSON.stringify(obj);
+      if (data.length >= 2) {
+        obj = JSON.parse(data); //now it an object
+        obj.push(newEntry);
+        var strNotes = JSON.stringify(obj);
           fs.writeFile('content/StaffRoomPres/StaffRoomPres.json',strNotes, function(err){
               if(err) return console.log(err);
               console.log('Note added');
               fs.readFile('content/StaffRoomPres/StaffRoomPres.json', 'utf8', (err,data) => {
-                if (data.length > 0) {
+                if (data.length >= 2) {
                   backupJson();
                 } else {
                   restoreJson();
                 }
               });
           });
-  }});
+      }
+    }
+  });
 
   if (newFileName != "blank") {
     fs.rename(request.file.path, request.file.path + ext, function(err) {
@@ -247,41 +251,41 @@ app.post('/content/StaffRoomPres/RemoveEntries.html', async (request, response) 
   if (request.body.Password == "NoticeMe!") {
 
     fs.readFile('content/StaffRoomPres/StaffRoomPres.json', 'utf8', function readFileCallback(err, data){
-        if (err){
-            console.log(err);
-        } else {
-        obj = JSON.parse(data); //now it an object
+      if (err){
+          console.log(err);
+      } else {
+        if (data.length >= 2) {
+          obj = JSON.parse(data); //now it an object
 
+          if (requestIdDelete != 0) {
+            removed = obj.splice(requestIdDelete - 1,1);
 
-        if (requestIdDelete != 0) {
-          removed = obj.splice(requestIdDelete - 1,1);
-
-          var strNotes = JSON.stringify(obj);
+            var strNotes = JSON.stringify(obj);
               fs.writeFile('content/StaffRoomPres/StaffRoomPres.json',strNotes, function(err){
-                  if(err) return console.log(err);
-                  console.log('Note deleted');
-                  if (removed[0].Background != 'blank') {
-                    fs.unlink('content/StaffRoomPres/backgrounds/' + removed[0].Background, (err) => {
-                      if (err) {
-                        console.error(err)
-                        return
-                      }
-                    });
-                  }
-                  fs.readFile('content/StaffRoomPres/StaffRoomPres.json', 'utf8', (err,data) => {
-                    if (data.length > 0) {
-                      backupJson();
-                    } else {
-                      restoreJson();
+                if(err) return console.log(err);
+                console.log('Note deleted');
+                if (removed[0].Background != 'blank') {
+                  fs.unlink('content/StaffRoomPres/backgrounds/' + removed[0].Background, (err) => {
+                    if (err) {
+                      console.error(err)
+                      return
                     }
                   });
-              });
+                }
+                fs.readFile('content/StaffRoomPres/StaffRoomPres.json', 'utf8', (err,data) => {
+                  if (data.length >= 2) {
+                    backupJson();
+                  } else {
+                    restoreJson();
+                  }
+                });
+            });
+          }
         }
-        
-    }});
+      }  
+    });
 
-}
-
+  }
 
   response.redirect('/');
 
@@ -311,44 +315,43 @@ app.post('/content/StaffRoomPres/ReorderEntries.html', async (request, response)
         if (err){
             console.log(err);
         } else {
-        obj = JSON.parse(data); //now it an object
+          if (data.length >= 2) {
+            obj = JSON.parse(data); //now it an object
 
-        //
+            if (requestMoveTo == "Front") {
+              console.log('Move forward');
+              
+              movedObj = obj.splice(requestIdMove - 1,1);
+              var newEntry = {"Title": movedObj[0].Title, "Message":movedObj[0].Message, "ExpiryDate":movedObj[0].ExpiryDate, "Background":movedObj[0].Background};
+              obj.unshift(newEntry);
 
+            }
 
-        if (requestMoveTo == "Front") {
-          console.log('Move forward');
-          
-          movedObj = obj.splice(requestIdMove - 1,1);
-          var newEntry = {"Title": movedObj[0].Title, "Message":movedObj[0].Message, "ExpiryDate":movedObj[0].ExpiryDate, "Background":movedObj[0].Background};
-          obj.unshift(newEntry);
+            if (requestMoveTo == "Back") {
+              console.log('Move back');
 
-        }
+              movedObj = obj.splice(requestIdMove - 1,1);
+              var newEntry = {"Title": movedObj[0].Title, "Message":movedObj[0].Message, "ExpiryDate":movedObj[0].ExpiryDate, "Background":movedObj[0].Background};
+              obj.push(newEntry);
 
-        if (requestMoveTo == "Back") {
-          console.log('Move back');
-
-          movedObj = obj.splice(requestIdMove - 1,1);
-          var newEntry = {"Title": movedObj[0].Title, "Message":movedObj[0].Message, "ExpiryDate":movedObj[0].ExpiryDate, "Background":movedObj[0].Background};
-          obj.push(newEntry);
-
-        }
-          
-          var strNotes = JSON.stringify(obj);
-              fs.writeFile('content/StaffRoomPres/StaffRoomPres.json',strNotes, function(err){
-                  if(err) return console.log(err);
-                  console.log('Note moved');
-                  fs.readFile('content/StaffRoomPres/StaffRoomPres.json', 'utf8', (err,data) => {
-                    if (data.length > 0) {
-                      backupJson();
-                    } else {
-                      restoreJson();
-                    }
+            }
+              
+              var strNotes = JSON.stringify(obj);
+                  fs.writeFile('content/StaffRoomPres/StaffRoomPres.json',strNotes, function(err){
+                      if(err) return console.log(err);
+                      console.log('Note moved');
+                      fs.readFile('content/StaffRoomPres/StaffRoomPres.json', 'utf8', (err,data) => {
+                        if (data.length >= 2) {
+                          backupJson();
+                        } else {
+                          restoreJson();
+                        }
+                      });
                   });
-              });
 
-
-        }
+                }
+        
+      }
         
         
     });
