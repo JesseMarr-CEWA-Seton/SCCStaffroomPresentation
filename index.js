@@ -11,39 +11,59 @@ app.use(bodyParser.urlencoded({
   extended: true
 }));
 
+
+// This function is used to return false is date passed is the current date or a previous date
 function isDateBeforeToday(date) {
   return new Date(date.toDateString()) < new Date(new Date().toDateString());
 }
 
 
+// This function is used to copy the current JSON to the backup location
 function backupJson() {
+  // Copy file
   fs.copyFile('./content/StaffRoomPres/StaffRoomPres.json', './content/StaffRoomPres/StaffRoomPresBackup.json', (err) => {
-    if (err) throw err;
-    console.log('file backed up');
+    if (err) {
+      console.log(err); // console log error if failed
+    } else {
+      console.log('file backed up'); // console log if successful
+    }
   });
 }
 
+
+// This function is used to restore the used JSON from the backup file
 function restoreJson() {
+  // Copy file
   fs.copyFile('./content/StaffRoomPres/StaffRoomPresBackup.json', './content/StaffRoomPres/StaffRoomPres.json', (err) => {
-    if (err) console.log(err);
-    console.log('file restored');
+    if (err) {
+      console.log(err); // console log error if failed
+    } else {
+      console.log('file restored'); // console log if successful
+    }
   });
 }
 
+
+// Used to check if used JSON file needs to be restored
 function restoreJsonIfNeeded() {
   try {
+
+    // Get json files info into var
     const jsonFileInfo = fs.statSync('./content/StaffRoomPres/StaffRoomPres.json');
     const jsonBackupFileInfo = fs.statSync('./content/StaffRoomPres/StaffRoomPresBackup.json');
 
+    // extract the date of last edit
     jsonEditTime = jsonFileInfo.mtime;
     jsonBackupEditTime = jsonBackupFileInfo.mtime;
+
     if (jsonEditTime < jsonBackupEditTime) {
-      restoreJson();
+      restoreJson(); // Restore if backup is newer
     }
 
+    // Read used JSON
     fs.readFile('./content/StaffRoomPres/StaffRoomPres.json', 'utf8', (err,data) => {
       if (data.length < 2) {
-        restoreJson();
+        restoreJson(); // If file has less then 2 char then restore from backup
       }
     });
     
