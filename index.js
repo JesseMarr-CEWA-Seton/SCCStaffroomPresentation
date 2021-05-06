@@ -77,20 +77,24 @@ function restoreJsonIfNeeded() {
 // Default redirect
 app.get('/', async (request, response) => {
 
-  restoreJsonIfNeeded();
+  restoreJsonIfNeeded(); // Checks if restoration is needed
     
-  // Remove old entries
+  // See if any entries are too old and need to be removed
   fs.readFile('content/StaffRoomPres/StaffRoomPres.json', 'utf8', function readFileCallback(err, data){
     if (err){
         console.log(err);
     } else {
+      
+      // If file has 2 or more chars then continue to check JSON
       if (data.length >= 2) {
-        obj = JSON.parse(data); //now it an object
 
+        obj = JSON.parse(data); // JSON into obj var
+
+        // forEach entry in JSON
         var i = 0;
         obj.forEach(async function(element) {
           
-          
+          // If date of "ExpiryDate" is 
           if ((isDateBeforeToday(new Date(element.ExpiryDate))) || (element.Title == "")) {
             removed = obj.splice(i,1);
 
@@ -195,9 +199,11 @@ app.post('/content/StaffRoomPres/AddNewEntries.html', upload.single('background'
   switch (request.file.mimetype) {
     case "image/jpeg":
       var newFileName = request.file.filename + ".jpg";
+      ext = ".jpg";
       break;
     case "image/png":
       var newFileName = request.file.filename + ".jpg";
+      ext = ".jpg";
       break;
   }
  }
