@@ -30,7 +30,7 @@ function restoreJson() {
   });
 }
 
-function restoreJsonIfNewer() {
+function restoreJsonIfNeeded() {
   try {
     const jsonFileInfo = fs.statSync('./content/StaffRoomPres/StaffRoomPres.json');
     const jsonBackupFileInfo = fs.statSync('./content/StaffRoomPres/StaffRoomPresBackup.json');
@@ -40,6 +40,13 @@ function restoreJsonIfNewer() {
     if (jsonEditTime < jsonBackupEditTime) {
       restoreJson();
     }
+
+    fs.readFile('./content/StaffRoomPres/StaffRoomPres.json', 'utf8', (err,data) => {
+      if (data.length < 2) {
+        restoreJson();
+      }
+    });
+    
   } catch (error) {
       console.log(error);
   }
@@ -50,7 +57,7 @@ function restoreJsonIfNewer() {
 // Default redirect
 app.get('/', async (request, response) => {
 
-  restoreJsonIfNewer();
+  restoreJsonIfNeeded();
     
   // Remove old entries
   fs.readFile('content/StaffRoomPres/StaffRoomPres.json', 'utf8', function readFileCallback(err, data){
