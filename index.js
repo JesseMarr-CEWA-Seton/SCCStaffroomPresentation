@@ -14,7 +14,11 @@ app.use(bodyParser.urlencoded({
 
 // This function is used to return false is date passed is the current date or a previous date
 function isDateBeforeToday(date) {
-  return new Date(date.toDateString()) < new Date(new Date().toDateString());
+  if (date == "Invalid Date") {
+    return false;
+  } else {
+    return new Date(date.toDateString()) < new Date(new Date().toDateString());
+  }
 }
 
 
