@@ -21,8 +21,6 @@
 			padding: 0px;
 		}
 
-		/* Caption text */
-		
 		.titleText {
 			color: #f2f2f2;
 			width: 100%;
@@ -66,6 +64,21 @@
 			word-wrap: break-word;
 			-webkit-text-stroke: 1px #000000;
   			text-shadow: 0px 0px 20px #000000;
+		}
+
+		#time {
+			font-size: 4vh;
+			margin: 0px;
+			padding: 0px;
+			width: 95%;
+			display: inline-block;
+			word-wrap: break-word;
+			-webkit-text-stroke: 1px #000000;
+  			text-shadow: 0px 0px 20px #000000;
+			position:absolute;
+			bottom:2%;
+			right:0;
+			left:2%;
 		}
 
 		/* Caption text */
@@ -183,6 +196,10 @@
   <div class="messageText">
   <p id="message" width="80%"></p>
   </div>
+  <div class="time">
+	<p id="time" width="80%"></p>
+  </div>
+
 
 <script>
 var slideIndex = 0;
@@ -232,6 +249,8 @@ function showSlides() {
 	  // Put text to change here
 	  document.getElementById("title").innerHTML = slides[slideIndex-1].Title;
 	  document.getElementById("message").innerHTML = slides[slideIndex-1].Message;
+	  var dt = new Date();
+	  document.getElementById("time").innerHTML = dt.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
     if (slides[slideIndex-1].Background != "blank") {
       backgroundURL = "url(content/StaffRoomPres/backgrounds/" + slides[slideIndex-1].Background + ")";
       document.body.style.backgroundImage = backgroundURL;
