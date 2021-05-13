@@ -111,7 +111,9 @@ app.get('/', async (request, response) => {
             // write string to file
             fs.writeFile('content/StaffRoomPres/StaffRoomPres.json',strRemainingNotices, function(err){
 
-              if(err) return console.log(err); // output if error
+              if(err) {
+                console.log(err);  // output if error
+               }
 
               // log that note has been deleted
               console.log('Note deleted');
@@ -123,7 +125,6 @@ app.get('/', async (request, response) => {
                 fs.unlink('content/StaffRoomPres/backgrounds/' + removed[0].Background, (err) => {
                   if (err) {
                     console.error(err)
-                    return
                   }
                 });
 
@@ -268,7 +269,9 @@ app.post('/content/StaffRoomPres/AddNewEntries.html', upload.single('background'
         obj.push(newEntry);
         var strNotes = JSON.stringify(obj);
           fs.writeFile('content/StaffRoomPres/StaffRoomPres.json',strNotes, function(err){
-              if(err) return console.log(err);
+              if(err) {
+                console.log(err);
+              }
               console.log('Note added');
               fs.readFile('content/StaffRoomPres/StaffRoomPres.json', 'utf8', (err,data) => {
                 if (data.length >= 2) {
@@ -328,13 +331,14 @@ app.post('/content/StaffRoomPres/RemoveEntries.html', async (request, response) 
 
             var strNotes = JSON.stringify(obj);
               fs.writeFile('content/StaffRoomPres/StaffRoomPres.json',strNotes, function(err){
-                if(err) return console.log(err);
+                if(err) {
+                  console.log(err);
+                }
                 console.log('Note deleted');
                 if (removed[0].Background != 'blank') {
                   fs.unlink('content/StaffRoomPres/backgrounds/' + removed[0].Background, (err) => {
                     if (err) {
                       console.error(err)
-                      return
                     }
                   });
                 }
@@ -404,7 +408,9 @@ app.post('/content/StaffRoomPres/ReorderEntries.html', async (request, response)
               
               var strNotes = JSON.stringify(obj);
                   fs.writeFile('content/StaffRoomPres/StaffRoomPres.json',strNotes, function(err){
-                      if(err) return console.log(err);
+                      if(err) {
+                        console.log(err);
+                      }
                       console.log('Note moved');
                       fs.readFile('content/StaffRoomPres/StaffRoomPres.json', 'utf8', (err,data) => {
                         if (data.length >= 2) {
