@@ -273,8 +273,8 @@ app.post('/content/StaffRoomPres/AddNewEntries.html', upload.single('background'
                 console.log(err);
               }
               console.log('Note added');
-              fs.readFile('content/StaffRoomPres/StaffRoomPres.json', 'utf8', (err,data) => {
-                if (data.length >= 2) {
+              fs.readFile('content/StaffRoomPres/StaffRoomPres.json', 'utf8', (err,data2) => {
+                if (data2.length >= 2) {
                   backupJson();
                 } else {
                   restoreJson();
