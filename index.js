@@ -12,10 +12,10 @@ app.use(bodyParser.urlencoded({
 }));
 
 
-// This function is used to return false is date passed is the current date or a previous date
+// This function is used to return true if a date has passed
 function isDateBeforeToday(date) {
   if (date == "Invalid Date") {
-    return false;
+    return false; // return false if invalid date entered
   } else {
     return new Date(date.toDateString()) < new Date(new Date().toDateString());
   }
@@ -78,6 +78,9 @@ function restoreJsonIfNeeded() {
 
 
 
+
+//// Routes
+
 // Default redirect
 app.get('/', async (request, response) => {
 
@@ -98,87 +101,120 @@ app.get('/', async (request, response) => {
         var i = 0;
         obj.forEach(async function(element) {
           
-          // If date of "ExpiryDate" is 
+          // If date of "ExpiryDate" is before current date
           if ((isDateBeforeToday(new Date(element.ExpiryDate))) || (element.Title == "")) {
-            removed = obj.splice(i,1);
+            removed = obj.splice(i,1); // remove from obj
 
-            var strNotes = JSON.stringify(obj);
-                fs.writeFile('content/StaffRoomPres/StaffRoomPres.json',strNotes, function(err){
-                    if(err) return console.log(err);
-                    console.log('Note deleted');
-                    if (removed[0].Background != 'blank') {
-                      fs.unlink('content/StaffRoomPres/backgrounds/' + removed[0].Background, (err) => {
-                        if (err) {
-                          console.error(err)
-                          return
-                        }
-                      });
-                    }
-                    fs.readFile('content/StaffRoomPres/StaffRoomPres.json', 'utf8', (err,data) => {
-                      if (data.length >= 2) {
-                        backupJson();
-                      } else {
-                        restoreJson();
-                      }
-                    });
+            // json to string
+            var strRemainingNotices = JSON.stringify(obj);
+
+            // write string to file
+            fs.writeFile('content/StaffRoomPres/StaffRoomPres.json',strRemainingNotices, function(err){
+
+              if(err) return console.log(err); // output if error
+
+              // log that note has been deleted
+              console.log('Note deleted');
+
+              // if background exists
+              if (removed[0].Background != 'blank') {
+
+                // remove background
+                fs.unlink('content/StaffRoomPres/backgrounds/' + removed[0].Background, (err) => {
+                  if (err) {
+                    console.error(err)
+                    return
+                  }
                 });
+
+              }
+
+              // check json after writing
+              fs.readFile('content/StaffRoomPres/StaffRoomPres.json', 'utf8', (err,data) => {
+
+                // if json has data then backup ortherwise restore
+                if (data.length >= 2) {
+                  backupJson();
+                } else {
+                  restoreJson();
+                }
+
+              });
+
+            }); // end writing json
+
           } else {
-            i++;
+            i++; // increase i if entry does not need to be deleted
           }
         })
       }
     }
   });
   
-  
+  // Display slide show
   response.send( await readFile('./content/StaffRoomPres/index.html', 'utf8') );
 
-});
+}); // end default route
 
 
-
-
-
-
-
-
-
-
-////////
-////    Redirects for "/content/StaffRoomPres"
-////////
-
-
-//// Redirects for "/content/StaffRoomPres/index.html"
-
+// route for main Json
 app.get('/StaffRoomPres.json', async (request, response) => {
 
   response.send( await readFile('./content/StaffRoomPres/StaffRoomPres.json', 'utf8') );
 
 });
 
+
+// route for main Json
+app.get('/content/StaffRoomPres/backupJson.html', async (request, response) => {
+
+  response.download("./content/StaffRoomPres/StaffRoomPres.json");
+
+});
+
+
+// route for backup json
 app.get('/StaffRoomPresBackup.json', async (request, response) => {
 
   response.send( await readFile('./content/StaffRoomPres/StaffRoomPresBackup.json', 'utf8') );
 
 });
 
+
+app.post('/content/StaffRoomPres/backup.html', upload.single('upload'), async (request, response) => {
+
+  if ((request.file) && (request.body.Password == "NoticeMe!")) {
+    if (request.file.mimetype == "application/json") {
+
+      fs.rename(request.file.path, "./content/StaffRoomPres/StaffRoomPres.json", function(err) {
+        if ( err ) console.log('ERROR: ' + err);
+      });
+
+      backupJson();
+
+    }
+  }
+
+  // redirect to ./
+  response.redirect('/');
+
+});
+
+
+// route for default background
 app.get('/content/StaffRoomPres/background.jpg', async (request, response) => {
 
   response.send( await readFile('./content/StaffRoomPres/background.jpg') );
 
 });
 
+
+// routes for all backgrounds
 app.get('/content/StaffRoomPres/backgrounds/*', async (request, response) => {
 
   response.send( await readFile("./" + request.originalUrl) );
 
 });
-
-
-
-
-
 
 
 
@@ -396,7 +432,12 @@ response.send( await readFile('./content/StaffRoomPres/ReorderEntries.html', 'ut
 
 
 
+//// Redirects for "/content/StaffRoomPres/backup.html"
+app.get('/content/StaffRoomPres/backup.html', async (request, response) => {
 
+  response.send( await readFile('./content/StaffRoomPres/backup.html', 'utf8') );
+
+});
 
 
 

@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+	<style>
+		body {
+			text-align: center;
+			font-family: Verdana, sans-serif;
+			color: white;
+			background-image: url('https://sccstaffroompresentation.azurewebsites.net/content/StaffRoomPres/background.jpg');
+			background-repeat: no-repeat;
+			background-attachment: fixed;
+			background-size: 100vw 100vh;
+			background-size: cover;
+  			background-position: 50% 50%;
+		}
+		
+		h1 {
+			font-family: Cursive;
+			font-size: 400%;
+			text-align: center;
+		}
+		
+		table {
+			border: 0px solid white;
+			padding: 50px;
+			padding-bottom: 80px;
+		}
+
+		input {
+			width: 90%;
+		}
+		
+		input.button {
+			width: 40%;
+			background-color: white;
+			border: 2px solid black;
+			color: black;
+			padding: 15px 32px;
+			text-align: center;
+			text-decoration: none;
+			display: inline-block;
+			font-size: 16px;
+			transition-duration: 0.4s;
+			cursor: pointer;
+		}
+		
+		.button:hover {
+			background-color: black;
+			color: white;
+		}
+		
+		.ast {
+			vertical-align: top;
+		}
+	</style>
+
+	<head>
+		<title>Backup/Restore Notices</title>
+	</head>
+
+	<body>
+		<h1>Backup/Restore Notices</h1>
+
+		<center>
+
+		<table border="0">
+				
+
+				<td colspan="2" align="center">
+					<br><br>
+					<input type="submit" value="Backup" class="button" onclick="window.location.href='backupJson.html'"/>
+				</td>
+
+
+
+			<tr>
+				<td colspan="2" align="center"><br><br><br><br><br><br></td>
+			</tr>
+
+
+
+			<form method="post" name="restore" enctype="multipart/form-data">
+			
+				<tr>
+					<td align="right">
+						<label for="upload">Upload JSON: </label>
+					</td>
+					
+					<td>
+						<input id="upload" name="upload" type="file" accept=".json">
+					</td>
+				</tr>
+				
+				<tr>
+					<td align="right">
+						<label for="password">Password: </label>
+					</td>
+					
+					<td class="ast">
+						<input type="password" name="Password" id="Password" placeholder="" required/><font color="red" class="ast">*</font>
+					</td>
+				</tr>
+				
+				<td colspan="2" align="center">
+					<br><br>
+					<input type="submit" value="Upload" class="button"/>
+				</td>
+
+			</form>
+		</table>
+		
+
+	</body>
+</html>
