@@ -105,7 +105,7 @@ app.get('/', async (request, response) => {
         obj.forEach(async function(element) {
           
           // If date of "ExpiryDate" is before current date
-          if ((isDateBeforeToday(new Date(element.ExpiryDate))) || (element.Title == "")) {
+          if (isDateBeforeToday(new Date(element.ExpiryDate))) {
             removed = obj.splice(i,1); // remove from obj
 
             // json to string
@@ -199,7 +199,7 @@ app.post('/content/StaffRoomPres/backup.html', upload.single('upload'), async (r
     }
   }
 
-  // redirect to ./
+  // redirect to slide show
   response.redirect('/');
 
 });
@@ -222,84 +222,99 @@ app.get('/content/StaffRoomPres/backgrounds/*', async (request, response) => {
 
 
 
-//// Redirects for "/content/StaffRoomPres/RemoveEntries.html"
+//// Route for "/content/StaffRoomPres/RemoveEntries.html"
 app.get('/content/StaffRoomPres/RemoveEntries.html', async (request, response) => {
 
   response.send( await readFile('./content/StaffRoomPres/RemoveEntries.html', 'utf8') );
 
 });
 
+
+// Handelling the request for adding a new entry 
 app.post('/content/StaffRoomPres/AddNewEntries.html', upload.single('background'), async (request, response) => {
 
-  var obj = {
-    data: []
- };
+  // vars for saving the file
+  var ext = "";
+  var newFileName = "blank";
 
- var ext = "";
- var newFileName = "blank";
-
-
- if (request.file) {
-  switch (request.file.mimetype) {
-    case "image/jpeg":
-      var newFileName = request.file.filename + ".jpg";
-      ext = ".jpg";
-      break;
-    case "image/png":
-      var newFileName = request.file.filename + ".jpg";
-      ext = ".jpg";
-      break;
-  }
- }
-
-  var message = request.body.Message;
-  var breaks = message.search("\r\n");
-  while(breaks != -1) {
-    message = message.replace("\r\n", "<br>");
-    breaks = message.search("\r\n");
+  // if title is blank add space char
+  if (request.body.Title.length > 0) {
+    var title = request.body.Title;
+  } else {
+    var title = " ";
   }
 
- var newEntry = {"Title": request.body.Title, "Message":message, "ExpiryDate":request.body.ExpiryDate, "Background":newFileName};
-
- if (request.body.Password == "NoticeMe!") {
-
-    fs.readFile('content/StaffRoomPres/StaffRoomPres.json', 'utf8', function readFileCallback(err, data){
-    if (err){
-        console.log(err);
-    } else {
-      if (data.length >= 2) {
-        obj = JSON.parse(data); //now it an object
-        obj.push(newEntry);
-        var strNotes = JSON.stringify(obj);
-          fs.writeFileSync('content/StaffRoomPres/StaffRoomPres.json',strNotes, function(err){
-              if(err) {
-                console.log(err);
-              }
-              console.log('Note added');
-              fs.readFile('content/StaffRoomPres/StaffRoomPres.json', 'utf8', (err,data2) => {
-                if (data2.length >= 2) {
-                  backupJson();
-                } else {
-                  restoreJson();
-                }
-              });
-          });
-      }
+  // setting up newFileName
+  if (request.file) {
+    ext = ".jpg";
+    switch (request.file.mimetype) {
+      case "image/jpeg":
+        var newFileName = request.file.filename + ext;
+        break;
+      case "image/png":
+        var newFileName = request.file.filename + ext;
+        break;
     }
-  });
-
-  if (newFileName != "blank") {
-    fs.rename(request.file.path, request.file.path + ext, function(err) {
-      if ( err ) console.log('ERROR: ' + err);
-    });
   }
+
+  // setting up message  - with <br> instead of \n
+  var message = request.body.Message;
+  if (message.length > 0) {
+    var breaks = message.search("\r\n");
+    while(breaks != -1) {
+      message = message.replace("\r\n", "<br>");
+      breaks = message.search("\r\n");
+    }
+  } else {
+    message = " ";
+  }
+  
+  // sets the json string
+  var newEntry = {"Title": title, "Message":message, "ExpiryDate":request.body.ExpiryDate, "Background":newFileName};
+
+  // if password entered correctly
+  if (request.body.Password == "NoticeMe!") {
+
+    // gets json
+    fs.readFile('content/StaffRoomPres/StaffRoomPres.json', 'utf8', function readFileCallback(err, data){
+      if (err){
+          console.log(err);
+      } else {
+        if (data.length >= 2) {
+          obj = JSON.parse(data); //now it an object
+          obj.push(newEntry);
+          var strNotes = JSON.stringify(obj);
+            fs.writeFileSync('content/StaffRoomPres/StaffRoomPres.json',strNotes, function(err){
+                if(err) {
+                  console.log(err);
+                }
+                console.log('Note added');
+                fs.readFile('content/StaffRoomPres/StaffRoomPres.json', 'utf8', (err,data2) => {
+                  if (data2.length >= 2) {
+                    backupJson();
+                  } else {
+                    restoreJson();
+                  }
+                });
+            });
+        }
+      }
+    });
+
+    // If newFileName ready rename to new name
+    if (newFileName != "blank") {
+      fs.rename(request.file.path, request.file.path + ext, function(err) {
+        if ( err ) console.log('ERROR: ' + err);
+      });
+    }
 
  } else {
-  if (request.file) {
-    fs.unlink(request.file.path, (err) => {
-      if ( err ) console.log('ERROR: ' + err);
-    });
-  }
+
+    if (request.file) {
+      fs.unlink(request.file.path, (err) => {
+        if ( err ) console.log('ERROR: ' + err);
+      });
+    }
 
  }
 
