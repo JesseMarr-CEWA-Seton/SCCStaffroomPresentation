@@ -6,6 +6,7 @@ const fs = require("fs");
 const multer  = require('multer')
 const upload = multer({ dest: 'content/StaffRoomPres/backgrounds/' })
 
+// used to set port to env port if avalible otherwise sets to port 3000
 const port = process.env.PORT || 3000;
 
 
@@ -111,7 +112,7 @@ app.get('/', async (request, response) => {
             var strRemainingNotices = JSON.stringify(obj);
 
             // write string to file
-            fs.writeFile('content/StaffRoomPres/StaffRoomPres.json',strRemainingNotices, function(err){
+            fs.writeFileSync('content/StaffRoomPres/StaffRoomPres.json',strRemainingNotices, function(err){
 
               if(err) {
                 console.log(err);  // output if error
@@ -270,7 +271,7 @@ app.post('/content/StaffRoomPres/AddNewEntries.html', upload.single('background'
         obj = JSON.parse(data); //now it an object
         obj.push(newEntry);
         var strNotes = JSON.stringify(obj);
-          fs.writeFile('content/StaffRoomPres/StaffRoomPres.json',strNotes, function(err){
+          fs.writeFileSync('content/StaffRoomPres/StaffRoomPres.json',strNotes, function(err){
               if(err) {
                 console.log(err);
               }
@@ -332,7 +333,7 @@ app.post('/content/StaffRoomPres/RemoveEntries.html', async (request, response) 
             removed = obj.splice(requestIdDelete - 1,1);
 
             var strNotes = JSON.stringify(obj);
-              fs.writeFile('content/StaffRoomPres/StaffRoomPres.json',strNotes, function(err){
+              fs.writeFileSync('content/StaffRoomPres/StaffRoomPres.json',strNotes, function(err){
                 if(err) {
                   console.log(err);
                 }
@@ -409,7 +410,7 @@ app.post('/content/StaffRoomPres/ReorderEntries.html', async (request, response)
             }
               
               var strNotes = JSON.stringify(obj);
-                  fs.writeFile('content/StaffRoomPres/StaffRoomPres.json',strNotes, function(err){
+                  fs.writeFileSync('content/StaffRoomPres/StaffRoomPres.json',strNotes, function(err){
                       if(err) {
                         console.log(err);
                       }
