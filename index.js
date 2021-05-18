@@ -6,6 +6,8 @@ const fs = require("fs");
 const multer  = require('multer')
 const upload = multer({ dest: 'content/StaffRoomPres/backgrounds/' })
 
+const port = process.env.PORT || 3000;
+
 
 app.use(bodyParser.urlencoded({
   extended: true
@@ -453,4 +455,4 @@ app.get('/content/StaffRoomPres/backup.html', async (request, response) => {
 
 
 
-app.listen(process.env.PORT || 3000, () => console.log(`App available on http://localhost:80`))
+app.listen(port, () => console.log("App available on http://localhost:" + port))
