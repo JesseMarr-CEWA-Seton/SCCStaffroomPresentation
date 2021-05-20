@@ -167,43 +167,67 @@
 <div id="dimBackground" class="dimBackground"></div>
   <h1>Notices</h1>
 <div style="text-align:center" class="dots">
-      <span class="dot" style="display: none">1</span> 
-			<span class="dot" style="display: none">2</span> 
-			<span class="dot" style="display: none">3</span> 
-			<span class="dot" style="display: none">4</span> 
-			<span class="dot" style="display: none">5</span> 
-			<span class="dot" style="display: none">6</span> 
-			<span class="dot" style="display: none">7</span> 
-			<span class="dot" style="display: none">8</span> 
-			<span class="dot" style="display: none">9</span> 
-			<span class="dot" style="display: none">10</span> 
-			<span class="dot" style="display: none">11</span> 
-			<span class="dot" style="display: none">12</span> 
-			<span class="dot" style="display: none">13</span> 
-			<span class="dot" style="display: none">14</span> 
-			<span class="dot" style="display: none">15</span> 
-			<span class="dot" style="display: none">16</span> 
-			<span class="dot" style="display: none">17</span> 
-			<span class="dot" style="display: none">18</span> 
-			<span class="dot" style="display: none">19</span> 
-			<span class="dot" style="display: none">20</span> 
-			<span class="dot" style="display: none">21</span> 
-			<span class="dot" style="display: none">22</span> 
-			<span class="dot" style="display: none">23</span> 
-			<span class="dot" style="display: none">24</span> 
-			<span class="dot" style="display: none">25</span> 
+      		<span class="dot" style="display: none" onclick="showSlideNumber(1)">1</span> 
+			<span class="dot" style="display: none" onclick="showSlideNumber(2)">2</span> 
+			<span class="dot" style="display: none" onclick="showSlideNumber(3)">3</span> 
+			<span class="dot" style="display: none" onclick="showSlideNumber(4)">4</span> 
+			<span class="dot" style="display: none" onclick="showSlideNumber(5)">5</span> 
+			<span class="dot" style="display: none" onclick="showSlideNumber(6)">6</span> 
+			<span class="dot" style="display: none" onclick="showSlideNumber(7)">7</span> 
+			<span class="dot" style="display: none" onclick="showSlideNumber(8)">8</span> 
+			<span class="dot" style="display: none" onclick="showSlideNumber(9)">9</span> 
+			<span class="dot" style="display: none" onclick="showSlideNumber(10)">10</span> 
+			<span class="dot" style="display: none" onclick="showSlideNumber(11)">11</span> 
+			<span class="dot" style="display: none" onclick="showSlideNumber(12)">12</span> 
+			<span class="dot" style="display: none" onclick="showSlideNumber(13)">13</span> 
+			<span class="dot" style="display: none" onclick="showSlideNumber(14)">14</span> 
+			<span class="dot" style="display: none" onclick="showSlideNumber(15)">15</span> 
+			<span class="dot" style="display: none" onclick="showSlideNumber(16)">16</span> 
+			<span class="dot" style="display: none" onclick="showSlideNumber(17)">17</span> 
+			<span class="dot" style="display: none" onclick="showSlideNumber(18)">18</span> 
+			<span class="dot" style="display: none" onclick="showSlideNumber(19)">19</span> 
+			<span class="dot" style="display: none" onclick="showSlideNumber(20)">20</span> 
+			<span class="dot" style="display: none" onclick="showSlideNumber(21)">21</span> 
+			<span class="dot" style="display: none" onclick="showSlideNumber(22)">22</span> 
+			<span class="dot" style="display: none" onclick="showSlideNumber(23)">23</span> 
+			<span class="dot" style="display: none" onclick="showSlideNumber(24)">24</span> 
+			<span class="dot" style="display: none" onclick="showSlideNumber(25)">25</span> 
+			<span class="dot" style="display: none"></span> 
       <span class="dot" style="display: none"></span> 
+			<span class="dot" style="display: none"></span> 
+			<span class="dot" style="display: none"></span> 
       <span class="dot" style="display: none"></span> 
+			<span class="dot" style="display: none"></span> 
+			<span class="dot" style="display: none"></span> 
       <span class="dot" style="display: none"></span> 
+			<span class="dot" style="display: none"></span> 
+			<span class="dot" style="display: none"></span> 
       <span class="dot" style="display: none"></span> 
+			<span class="dot" style="display: none"></span> 
+			<span class="dot" style="display: none"></span> 
       <span class="dot" style="display: none"></span> 
+			<span class="dot" style="display: none"></span> 
+			<span class="dot" style="display: none"></span> 
       <span class="dot" style="display: none"></span> 
+			<span class="dot" style="display: none"></span> 
+			<span class="dot" style="display: none"></span> 
       <span class="dot" style="display: none"></span> 
+			<span class="dot" style="display: none"></span> 
+			<span class="dot" style="display: none"></span> 
       <span class="dot" style="display: none"></span> 
+			<span class="dot" style="display: none"></span> 
+			<span class="dot" style="display: none"></span> 
       <span class="dot" style="display: none"></span> 
+			<span class="dot" style="display: none"></span> 
+			<span class="dot" style="display: none"></span> 
       <span class="dot" style="display: none"></span> 
+			<span class="dot" style="display: none"></span> 
+			<span class="dot" style="display: none"></span> 
       <span class="dot" style="display: none"></span> 
+			<span class="dot" style="display: none"></span> 
+			<span class="dot" style="display: none"></span> 
       <span class="dot" style="display: none"></span> 
+			<span class="dot" style="display: none"></span> 
 </div>
 <div class="titleText">
   <p id="title"></p>
@@ -219,6 +243,7 @@
 <script>
 var slideIndex = 0;
 showSlides();
+var nextslide;
 
 function readJSON(file) {
 	var request = new XMLHttpRequest();
@@ -226,6 +251,12 @@ function readJSON(file) {
 	request.send(null);
 	if (request.status == 200)
 		return request.responseText;
+}
+
+function showSlideNumber(slidenumber) {
+	clearTimeout(nextslide);
+	slideIndex = slidenumber - 1;
+	showSlides();
 }
 
 
