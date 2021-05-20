@@ -164,7 +164,7 @@
 	</style>
 </head>
 <body>
-<div class="dimBackground"></div>
+<div id="dimBackground" class="dimBackground"></div>
   <h1>Notices</h1>
 <div style="text-align:center" class="dots">
       <span class="dot" style="display: none">1</span> 
@@ -262,8 +262,11 @@ function showSlides() {
   
   if (j != 0) {
 	  // Put text to change here
-	  document.getElementById("title").innerHTML = slides[slideIndex-1].Title;
-	  document.getElementById("message").innerHTML = slides[slideIndex-1].Message;
+	  var title = slides[slideIndex-1].Title;
+	  var message = slides[slideIndex-1].Message;
+
+	  document.getElementById("title").innerHTML = title;
+	  document.getElementById("message").innerHTML = message;
 	  var dt = new Date();
 	  document.getElementById("time").innerHTML = dt.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
     if (slides[slideIndex-1].Background != "blank") {
@@ -273,6 +276,12 @@ function showSlides() {
       backgroundURL = "url('content/StaffRoomPres/background.jpg')";
       document.body.style.backgroundImage = backgroundURL;
     }
+
+	if ((message.length < 2) && (title.length < 2)) {
+		document.getElementById("dimBackground").style.display = "none";
+	} else {
+		document.getElementById("dimBackground").style.display = "block";
+	}
     
   } else {
 	document.getElementById("title").innerHTML = "";
